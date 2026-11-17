@@ -1,6 +1,13 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AuthStackParamList } from '../../navigation/AuthNavigator';
+import { useNavigation } from '@react-navigation/native';
+
+type InicioNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Inicio'>;
 
 export function InicioScreen() {
+
+    const navigation = useNavigation<InicioNavigationProp>();
 
     return (
 
@@ -16,11 +23,11 @@ export function InicioScreen() {
 
                 <Image source={require('../../../assets/imagem-telainicial.png')} style={styles.imagem} resizeMode="contain"/>
 
-                    <TouchableOpacity style={styles.buttonCadastro}>
+                    <TouchableOpacity style={styles.buttonCadastro} onPress={() => navigation.navigate('Register')}>
                         <Text style={styles.buttonCadastroText}>Começar</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.buttonLogin}>
+                    <TouchableOpacity style={styles.buttonLogin} onPress={() => navigation.navigate('Login')}>
                         <Text style={styles.buttonLoginText}>Já tenho uma conta</Text>
                     </TouchableOpacity>
 
