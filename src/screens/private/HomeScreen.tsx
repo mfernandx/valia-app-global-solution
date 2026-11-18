@@ -27,13 +27,14 @@ export default function HomeScreen() {
     }
 
     return (
+        
         <ScrollView style={styles.container} contentContainerStyle={[styles.conteudo, { paddingTop: insets.top + 12 }]} showsVerticalScrollIndicator={false}>
             <HomeHeader fullName={user?.fullName} onProfilePress={() => navigation.navigate('Perfil')} />
             <RightsBanner />
 
             <View style={styles.acoes}>
                 <QuickActionCard title="Minha jornada" icon="calendar-outline" onPress={() => navigation.navigate('WorkShifts')} />
-                <QuickActionCard title="Análise da jornada" icon="time-outline" onPress={() => showPendingFeature('Análise da jornada')} />
+                <QuickActionCard title="Análise da jornada" icon="time-outline" onPress={() => navigation.navigate('WorkShiftAnalysis')}/>
                 <QuickActionCard title="Condições de trabalho" icon="ribbon-outline" onPress={() => showPendingFeature('Condições de trabalho')} />
                 <QuickActionCard title="Comunidade" icon="people-outline" onPress={() => navigation.navigate('Comunidade')} />
             </View>
