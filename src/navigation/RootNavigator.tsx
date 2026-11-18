@@ -3,11 +3,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthNavigator from './AuthNavigator';
 import AppTabNavigator from './AppTabNavigator';
 import { useAuth } from '../hooks/useAuth';
+import WorkShiftNavigator from './WorkShiftNavigator';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+    App: undefined;
+    WorkShifts: undefined;
+    Auth: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
-    
+
     const { isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
@@ -21,7 +28,10 @@ export default function RootNavigator() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             {isAuthenticated ? (
-                <Stack.Screen name="App" component={AppTabNavigator} />
+                <>
+                    <Stack.Screen name="App" component={AppTabNavigator} />
+                    <Stack.Screen name="WorkShifts" component={WorkShiftNavigator} />
+                </>
             ) : (
                 <Stack.Screen name="Auth" component={AuthNavigator} />
             )}
@@ -30,11 +40,11 @@ export default function RootNavigator() {
 }
 
 const styles = StyleSheet.create({
-    loading: { 
-        flex: 1, 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        backgroundColor: '#FFF7F1' 
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFF7F1'
     },
 });
 

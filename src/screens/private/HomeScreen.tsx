@@ -1,5 +1,5 @@
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeHeader from '../../components/home/HomeHeader';
@@ -8,8 +8,13 @@ import QuickActionCard from '../../components/home/QuickActionCard';
 import EducationalCard from '../../components/home/EducationalCard';
 import { useAuth } from '../../hooks/useAuth';
 import type { AppTabParamList } from '../../navigation/AppTabNavigator';
+import type { RootStackParamList } from '../../navigation/RootNavigator';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type HomeNavigationProp = BottomTabNavigationProp<AppTabParamList, 'Inicio'>;
+type HomeNavigationProp = CompositeNavigationProp<
+    BottomTabNavigationProp<AppTabParamList, 'Inicio'>,
+    NativeStackNavigationProp<RootStackParamList>
+>;
 
 export default function HomeScreen() {
 
@@ -27,7 +32,7 @@ export default function HomeScreen() {
             <RightsBanner />
 
             <View style={styles.acoes}>
-                <QuickActionCard title="Minha jornada" icon="calendar-outline" onPress={() => showPendingFeature('Minha jornada')} />
+                <QuickActionCard title="Minha jornada" icon="calendar-outline" onPress={() => navigation.navigate('WorkShifts')} />
                 <QuickActionCard title="Análise da jornada" icon="time-outline" onPress={() => showPendingFeature('Análise da jornada')} />
                 <QuickActionCard title="Condições de trabalho" icon="ribbon-outline" onPress={() => showPendingFeature('Condições de trabalho')} />
                 <QuickActionCard title="Comunidade" icon="people-outline" onPress={() => navigation.navigate('Comunidade')} />
@@ -47,41 +52,41 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
 
-    container: { 
-        flex: 1, 
-        backgroundColor: '#FFF7F1' 
+    container: {
+        flex: 1,
+        backgroundColor: '#FFF7F1'
     },
 
-    conteudo: { 
-        paddingHorizontal: 23, 
-        paddingBottom: 28 
+    conteudo: {
+        paddingHorizontal: 23,
+        paddingBottom: 28
     },
 
-    acoes: { 
-        flexDirection: 'row', 
-        flexWrap: 'wrap', 
-        justifyContent: 'space-between', 
-        rowGap: 10, 
-        marginBottom: 24 
+    acoes: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        rowGap: 10,
+        marginBottom: 24
     },
 
-    sectionHeader: { 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        marginBottom: 12 
+    sectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 12
     },
 
-    sectionTitulo: { 
-        fontSize: 17, 
-        fontWeight: '800', 
-        color: '#30212A' 
+    sectionTitulo: {
+        fontSize: 17,
+        fontWeight: '800',
+        color: '#30212A'
     },
 
-    verTudo: { 
-        fontSize: 13, 
-        fontWeight: '600', 
-        color: '#812443' 
+    verTudo: {
+        fontSize: 13,
+        fontWeight: '600',
+        color: '#812443'
     },
 });
 

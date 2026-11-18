@@ -1,4 +1,3 @@
-
 import React, { createContext, useEffect, useState } from 'react';
 import { authService } from '../services/authService';
 import { tokenStorage } from '../security/tokenStorage';
@@ -20,13 +19,14 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
+    
     const [user, setUser] = useState<UserResponse | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const isAuthenticated = user !== null;
 
     async function authenticate(response: AuthResponse) {
-        await tokenStorage.saveToken(response.token);
         const authenticatedUser = await authService.getMe(response.token);
+        await tokenStorage.saveToken(response.token);
         setUser(authenticatedUser);
     }
 
