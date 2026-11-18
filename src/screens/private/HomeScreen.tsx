@@ -1,48 +1,87 @@
-
-import React from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import AppButton from '../../components/AppButton';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import HomeHeader from '../../components/home/HomeHeader';
+import RightsBanner from '../../components/home/RightsBanner';
+import QuickActionCard from '../../components/home/QuickActionCard';
+import EducationalCard from '../../components/home/EducationalCard';
 import { useAuth } from '../../hooks/useAuth';
+import type { AppTabParamList } from '../../navigation/AppTabNavigator';
+
+type HomeNavigationProp = BottomTabNavigationProp<AppTabParamList, 'Inicio'>;
 
 export default function HomeScreen() {
-    const { user, logout } = useAuth();
 
-    async function handleLogout() {
-        try {
-            await logout();
-            
-        } catch {
-            Alert.alert('Erro', 'Não foi possível encerrar a sessão.');
-        }
+    const { user } = useAuth();
+    const navigation = useNavigation<HomeNavigationProp>();
+    const insets = useSafeAreaInsets();
+
+    function showPendingFeature(feature: string) {
+        Alert.alert(feature, 'Em desenvolvimento.');
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.titulo}>Olá, {user?.fullName}!</Text>
-            <Text style={styles.subtitulo}>Você está autenticado no Valia.</Text>
-            <AppButton title="Sair da conta" onPress={handleLogout} />
-        </View>
+        <ScrollView style={styles.container} contentContainerStyle={[styles.conteudo, { paddingTop: insets.top + 12 }]} showsVerticalScrollIndicator={false}>
+            <HomeHeader fullName={user?.fullName} onProfilePress={() => navigation.navigate('Perfil')} />
+            <RightsBanner />
+
+            <View style={styles.acoes}>
+                <QuickActionCard title="Minha jornada" icon="calendar-outline" onPress={() => showPendingFeature('Minha jornada')} />
+                <QuickActionCard title="Análise da jornada" icon="time-outline" onPress={() => showPendingFeature('Análise da jornada')} />
+                <QuickActionCard title="Condições de trabalho" icon="ribbon-outline" onPress={() => showPendingFeature('Condições de trabalho')} />
+                <QuickActionCard title="Comunidade" icon="people-outline" onPress={() => navigation.navigate('Comunidade')} />
+            </View>
+
+            <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitulo}>Saiba mais</Text>
+                <Pressable onPress={() => navigation.navigate('Direitos')} accessibilityRole="button">
+                    <Text style={styles.verTudo}>Ver tudo</Text>
+                </Pressable>
+            </View>
+
+            <EducationalCard title="Horas extras: quais são seus direitos?" onPress={() => navigation.navigate('Direitos')} />
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
+
     container: { 
         flex: 1, 
-        justifyContent: 'center', 
-        padding: 24, 
         backgroundColor: '#FFF7F1' 
     },
 
-    titulo: { 
-        fontSize: 26, 
-        fontWeight: '700', 
-        color: '#542039', 
+    conteudo: { 
+        paddingHorizontal: 23, 
+        paddingBottom: 28 
+    },
+
+    acoes: { 
+        flexDirection: 'row', 
+        flexWrap: 'wrap', 
+        justifyContent: 'space-between', 
+        rowGap: 10, 
+        marginBottom: 24 
+    },
+
+    sectionHeader: { 
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
         marginBottom: 12 
     },
 
-    subtitulo: { 
-        fontSize: 16, 
-        color: '#30212A', 
-        marginBottom: 30 
+    sectionTitulo: { 
+        fontSize: 17, 
+        fontWeight: '800', 
+        color: '#30212A' 
+    },
+
+    verTudo: { 
+        fontSize: 13, 
+        fontWeight: '600', 
+        color: '#812443' 
     },
 });
+

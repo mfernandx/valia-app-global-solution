@@ -1,13 +1,13 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthNavigator from './AuthNavigator';
-import HomeScreen from '../screens/private/HomeScreen';
+import AppTabNavigator from './AppTabNavigator';
 import { useAuth } from '../hooks/useAuth';
 
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
-
+    
     const { isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
@@ -21,7 +21,7 @@ export default function RootNavigator() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             {isAuthenticated ? (
-                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="App" component={AppTabNavigator} />
             ) : (
                 <Stack.Screen name="Auth" component={AuthNavigator} />
             )}
@@ -37,3 +37,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF7F1' 
     },
 });
+
