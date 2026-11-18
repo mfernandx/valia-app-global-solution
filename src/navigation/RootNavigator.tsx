@@ -5,11 +5,13 @@ import AppTabNavigator from './AppTabNavigator';
 import { useAuth } from '../hooks/useAuth';
 import WorkShiftNavigator from './WorkShiftNavigator';
 import WorkShiftAnalysisScreen from '../screens/private/WorkShiftAnalysisScreen';
+import WorkConditionNavigator from './WorkConditionNavigator';
 
 export type RootStackParamList = {
     App: undefined;
     WorkShifts: undefined;
     WorkShiftAnalysis: undefined;
+    WorkConditions: undefined;
     Auth: undefined;
 };
 
@@ -34,6 +36,7 @@ export default function RootNavigator() {
                     <Stack.Screen name="App" component={AppTabNavigator} />
                     <Stack.Screen name="WorkShifts" component={WorkShiftNavigator} />
                     <Stack.Screen name="WorkShiftAnalysis" component={WorkShiftAnalysisScreen} />
+                    <Stack.Screen name="WorkConditions" component={WorkConditionNavigator} />
                 </>
             ) : (
                 <Stack.Screen name="Auth" component={AuthNavigator} />
