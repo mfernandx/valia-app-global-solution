@@ -1,15 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AuthNavigator from './src/navigation/AuthNavigator';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from './src/contexts/AuthContext';
+import RootNavigator from './src/navigation/RootNavigator';
+
+const queryClient = new QueryClient();
 
 export default function App() {
     return (
         <SafeAreaProvider>
-            <NavigationContainer>
-                <StatusBar style="dark" />
-                <AuthNavigator />
-            </NavigationContainer>
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                    <NavigationContainer>
+                        <StatusBar style="dark" />
+                        <RootNavigator />
+                    </NavigationContainer>
+                </AuthProvider>
+            </QueryClientProvider>
         </SafeAreaProvider>
     );
 }
+

@@ -1,4 +1,3 @@
-
 import { Alert, Image, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -9,31 +8,57 @@ import AppInput from '../../components/AppInput';
 import AppButton from '../../components/AppButton';
 import type { AuthStackParamList } from '../../navigation/AuthNavigator';
 import type { LoginFormData } from '../../models/auth';
+import { useAuth } from '../../hooks/useAuth';
+import { AxiosError } from 'axios';
+import { useState } from 'react';
 
 type LoginNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
 export default function LoginScreen() {
 
     const navigation = useNavigation<LoginNavigationProp>();
-    const {control, handleSubmit, formState: { errors }} = useForm<LoginFormData>({
+    const { login } = useAuth();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
         resolver: yupResolver(loginSchema),
         defaultValues: { email: '', password: '' },
     });
 
-    function onSubmit(data: LoginFormData) {
-        Alert.alert(
-            'Os campos estão válidos.'
-        );
+
+    async function onSubmit(data: LoginFormData) {
+        try {
+            setIsSubmitting(true);
+            await login(data);
+
+        } catch (error) {
+            if (error instanceof AxiosError) {
+
+                if (error.response?.status === 401) {
+                    Alert.alert('Erro no login', 'E-mail ou senha inválidos.');
+
+                } else if (!error.response) {
+                    Alert.alert('Erro de conexão', 'Não foi possível conectar à API.');
+
+                } else {
+                    Alert.alert('Erro', 'Não foi possível realizar o login.');
+                }
+
+            } else {
+                Alert.alert('Erro', 'Ocorreu um erro inesperado.');
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     return (
         <ImageBackground source={require('../../../assets/login-background.png')} style={styles.background} resizeMode="stretch">
-            
+
             <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-                
+
                 <ScrollView contentContainerStyle={styles.scrollConteudo} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
                     <View style={styles.conteudo}>
-                        <Image source={require('../../../assets/logo-valia.png')} style={styles.logo} resizeMode="contain" accessibilityLabel="Logo Valia"/>
+                        <Image source={require('../../../assets/logo-valia.png')} style={styles.logo} resizeMode="contain" accessibilityLabel="Logo Valia" />
 
                         <Text style={styles.titulo}>Bem-vindo(a) de volta!</Text>
 
@@ -71,16 +96,15 @@ export default function LoginScreen() {
                                 )}
                             />
 
-
-                            <AppButton title="Entrar" icon="arrow-forward-outline" onPress={handleSubmit(onSubmit)}/>
+                            <AppButton title="Entrar" icon="arrow-forward-outline" onPress={handleSubmit(onSubmit)} loading={isSubmitting} />
 
                             <View style={styles.divisor}>
                                 <View style={styles.linha} />
-                                    <Text style={styles.divisorText}>ou</Text>
+                                <Text style={styles.divisorText}>ou</Text>
                                 <View style={styles.linha} />
                             </View>
 
-                            <AppButton title="Criar uma conta" icon="person-add-outline" variant="outline" onPress={() => navigation.navigate('Register')}/>
+                            <AppButton title="Criar uma conta" icon="person-add-outline" variant="outline" onPress={() => navigation.navigate('Register')} />
                         </View>
                     </View>
                 </ScrollView>
@@ -92,7 +116,7 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-    
+
     background: {
         flex: 1,
         backgroundColor: '#FFF7F1',

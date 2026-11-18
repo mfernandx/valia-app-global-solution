@@ -10,12 +10,17 @@ import AppButton from '../../components/AppButton';
 import AppCheckbox from '../../components/AppCheckbox';
 import type { AuthStackParamList } from '../../navigation/AuthNavigator';
 import type { RegisterFormData } from '../../models/auth';
+import { useState } from 'react';
+import { AxiosError } from 'axios';
+import { useAuth } from '../../hooks/useAuth';
 
 type RegisterNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Register'>;
 
 export default function RegisterScreen() {
 
     const navigation = useNavigation<RegisterNavigationProp>();
+    const { register } = useAuth();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { control, handleSubmit, formState: { errors } } = useForm<RegisterFormData>({
         resolver: yupResolver(registerSchema),
         defaultValues: {
@@ -27,11 +32,32 @@ export default function RegisterScreen() {
         },
     });
 
-    function onSubmit(data: RegisterFormData) {
-        Alert.alert(
-            'Os dados estão válidos.'
-        );
+
+    async function onSubmit(data: RegisterFormData) {
+        try {
+            setIsSubmitting(true);
+            await register({fullName: data.fullName, email: data.email, password: data.password});
+        
+        } catch (error) {
+            if (error instanceof AxiosError) {
+
+                if (error.response?.status === 409) {
+                    Alert.alert('Cadastro não realizado', 'Este e-mail já está cadastrado.');
+                
+                } else if (!error.response) {
+                    Alert.alert('Erro de conexão', 'Não foi possível conectar à API.');
+                
+                } else {
+                    Alert.alert('Erro', 'Não foi possível realizar o cadastro.');
+                }
+            } else {
+                Alert.alert('Erro', 'Ocorreu um erro inesperado.');
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
     }
+
 
     return (
         <ImageBackground source={require('../../../assets/cadastro-background.png')} style={styles.background} resizeMode="stretch">
@@ -116,7 +142,7 @@ export default function RegisterScreen() {
                             <View style={styles.termosRow}>
                                 <Controller control={control} name="acceptedTerms"
                                     render={({ field: { onChange, value } }) => (
-                                        <AppCheckbox checked={value} onChange={onChange} label="Aceitar os termos de uso e política de privacidade"/>
+                                        <AppCheckbox checked={value} onChange={onChange} label="Aceitar os termos de uso e política de privacidade" />
                                     )}
                                 />
 
@@ -133,7 +159,7 @@ export default function RegisterScreen() {
                                 <Text style={styles.errorText}>{errors.acceptedTerms.message}</Text>
                             )}
 
-                            <AppButton title="Cadastrar" icon="arrow-forward-outline" onPress={handleSubmit(onSubmit)} />
+                            <AppButton title="Cadastrar" icon="arrow-forward-outline" onPress={handleSubmit(onSubmit)} loading={isSubmitting}/>
 
                             <View style={styles.loginRow}>
                                 <Text style={styles.loginText}>Já tem uma conta?{' '}</Text>
@@ -151,7 +177,7 @@ export default function RegisterScreen() {
 }
 
 const styles = StyleSheet.create({
-    
+
     background: {
         flex: 1,
         backgroundColor: '#FFF7F1',
