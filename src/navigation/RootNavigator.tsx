@@ -8,6 +8,7 @@ import WorkShiftAnalysisScreen from '../screens/private/WorkShiftAnalysisScreen'
 import WorkConditionNavigator from './WorkConditionNavigator';
 import EmploymentNavigator from './EmploymentNavigator';
 import EditProfileScreen from '../screens/private/EditProfileScreen';
+import CreateCommunityPostScreen from '../screens/private/CreateCommunityPostScreen';
 
 export type RootStackParamList = {
     App: undefined;
@@ -16,6 +17,7 @@ export type RootStackParamList = {
     WorkConditions: undefined;
     Employments: undefined;
     EditProfile: undefined;
+    CreateCommunityPost: undefined;
     Auth: undefined;
 };
 
@@ -43,6 +45,7 @@ export default function RootNavigator() {
                     <Stack.Screen name="WorkConditions" component={WorkConditionNavigator} />
                     <Stack.Screen name="Employments" component={EmploymentNavigator} />
                     <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+                    <Stack.Screen name="CreateCommunityPost" component={CreateCommunityPostScreen}/>
                 </>
             ) : (
                 <Stack.Screen name="Auth" component={AuthNavigator} />
