@@ -10,6 +10,7 @@ import EmploymentNavigator from './EmploymentNavigator';
 import EditProfileScreen from '../screens/private/EditProfileScreen';
 import CreateCommunityPostScreen from '../screens/private/CreateCommunityPostScreen';
 import CommunityPostDetailsScreen from '../screens/private/CommunityPostDetailsScreen';
+import RightDetailsScreen from '../screens/private/RightDetailsScreen';
 
 export type RootStackParamList = {
     App: undefined;
@@ -20,6 +21,7 @@ export type RootStackParamList = {
     EditProfile: undefined;
     CreateCommunityPost: undefined;
     CommunityPostDetails: { postId: string };
+    RightDetails: { categoryId: string };
     Auth: undefined;
 };
 
@@ -49,6 +51,7 @@ export default function RootNavigator() {
                     <Stack.Screen name="EditProfile" component={EditProfileScreen} />
                     <Stack.Screen name="CreateCommunityPost" component={CreateCommunityPostScreen} />
                     <Stack.Screen name="CommunityPostDetails" component={CommunityPostDetailsScreen} options={{ headerShown: false }}/>
+                    <Stack.Screen name="RightDetails" component={RightDetailsScreen} options={{ headerShown: false }}/>
                 </>
             ) : (
                 <Stack.Screen name="Auth" component={AuthNavigator} />
