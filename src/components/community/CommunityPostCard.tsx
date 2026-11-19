@@ -1,7 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import type { CommunityPost } from '../../models/community';
 import { getCommunityCategoryLabel } from '../../utils/communityCategory';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../navigation/RootNavigator';
 
 interface CommunityPostCardProps {
     post: CommunityPost;
@@ -18,9 +21,11 @@ function formatDate(value: string) {
 export default function CommunityPostCard({ post }: CommunityPostCardProps) {
 
     const authorInitial = post.isAnonymous ? '?' : post.authorName.trim().charAt(0).toUpperCase();
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     return (
-        <View style={styles.postCard}>
+
+        <Pressable style={styles.postCard} onPress={() => navigation.navigate('CommunityPostDetails', { postId: post.communityPostId })}>
 
             <View style={styles.postHeader}>
 
@@ -34,19 +39,10 @@ export default function CommunityPostCard({ post }: CommunityPostCardProps) {
                 </View>
 
                 <View style={styles.categoriaBadge}>
-                    <Text style={styles.categoriaBadgeText}>
-                        {getCommunityCategoryLabel(post.category)}
-                    </Text>
+                    <Text style={styles.categoriaBadgeText}>{getCommunityCategoryLabel(post.category)}</Text>
                 </View>
 
             </View>
-
-            {post.isOwner && (
-                <View style={styles.proprietarioBadge}>
-                    <Ionicons name="person-circle-outline" size={14} color="#8D4059" />
-                    <Text style={styles.ownerBadgeText}>Minha publicação</Text>
-                </View>
-            )}
 
             <Text style={styles.postTitulo}>{post.title}</Text>
             <Text style={styles.postConteudo} numberOfLines={4}>{post.content}</Text>
@@ -60,7 +56,9 @@ export default function CommunityPostCard({ post }: CommunityPostCardProps) {
                 </Text>
 
             </View>
-        </View>
+
+        </Pressable>
+
     );
 }
 
