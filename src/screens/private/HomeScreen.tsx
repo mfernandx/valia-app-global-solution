@@ -36,7 +36,7 @@ export default function HomeScreen() {
                 <QuickActionCard title="Minha jornada" icon="calendar-outline" onPress={() => navigation.navigate('WorkShifts')} />
                 <QuickActionCard title="Análise da jornada" icon="time-outline" onPress={() => navigation.navigate('WorkShiftAnalysis')}/>
                 <QuickActionCard title="Condições de trabalho" icon="clipboard-outline" onPress={() => navigation.navigate('WorkConditions')}/>
-                <QuickActionCard title="Comunidade" icon="people-outline" onPress={() => navigation.navigate('Comunidade')} />
+                <QuickActionCard title="Meus vínculos" icon="briefcase-outline" onPress={() => navigation.navigate('Employments')}/>
             </View>
 
             <View style={styles.sectionHeader}>

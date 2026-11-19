@@ -6,12 +6,14 @@ import { useAuth } from '../hooks/useAuth';
 import WorkShiftNavigator from './WorkShiftNavigator';
 import WorkShiftAnalysisScreen from '../screens/private/WorkShiftAnalysisScreen';
 import WorkConditionNavigator from './WorkConditionNavigator';
+import EmploymentNavigator from './EmploymentNavigator';
 
 export type RootStackParamList = {
     App: undefined;
     WorkShifts: undefined;
     WorkShiftAnalysis: undefined;
     WorkConditions: undefined;
+    Employments: undefined;
     Auth: undefined;
 };
 
@@ -37,6 +39,7 @@ export default function RootNavigator() {
                     <Stack.Screen name="WorkShifts" component={WorkShiftNavigator} />
                     <Stack.Screen name="WorkShiftAnalysis" component={WorkShiftAnalysisScreen} />
                     <Stack.Screen name="WorkConditions" component={WorkConditionNavigator} />
+                    <Stack.Screen name="Employments" component={EmploymentNavigator} />
                 </>
             ) : (
                 <Stack.Screen name="Auth" component={AuthNavigator} />
@@ -46,11 +49,13 @@ export default function RootNavigator() {
 }
 
 const styles = StyleSheet.create({
+
     loading: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFF7F1'
     },
+    
 });
 
