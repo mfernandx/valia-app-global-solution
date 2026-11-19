@@ -1,4 +1,3 @@
-
 import { api } from './api';
 import { ENDPOINTS } from '../config/endpoints';
 import type { AuthResponse, LoginRequest, RegisterRequest, UserResponse } from '../models/auth';

@@ -7,6 +7,7 @@ import WorkShiftNavigator from './WorkShiftNavigator';
 import WorkShiftAnalysisScreen from '../screens/private/WorkShiftAnalysisScreen';
 import WorkConditionNavigator from './WorkConditionNavigator';
 import EmploymentNavigator from './EmploymentNavigator';
+import EditProfileScreen from '../screens/private/EditProfileScreen';
 
 export type RootStackParamList = {
     App: undefined;
@@ -14,6 +15,7 @@ export type RootStackParamList = {
     WorkShiftAnalysis: undefined;
     WorkConditions: undefined;
     Employments: undefined;
+    EditProfile: undefined;
     Auth: undefined;
 };
 
@@ -40,6 +42,7 @@ export default function RootNavigator() {
                     <Stack.Screen name="WorkShiftAnalysis" component={WorkShiftAnalysisScreen} />
                     <Stack.Screen name="WorkConditions" component={WorkConditionNavigator} />
                     <Stack.Screen name="Employments" component={EmploymentNavigator} />
+                    <Stack.Screen name="EditProfile" component={EditProfileScreen} />
                 </>
             ) : (
                 <Stack.Screen name="Auth" component={AuthNavigator} />
@@ -56,6 +59,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#FFF7F1'
     },
-    
+
 });
 
