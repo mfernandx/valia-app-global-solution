@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 
 export default function RightsBanner() {
     return (
         <LinearGradient colors={['#812443', '#C75F5B', '#FFBD91']} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }} style={styles.banner}>
+            
             <View style={styles.circuloPrincipal} />
             <View style={styles.circuloSecundario} />
 
@@ -13,9 +13,6 @@ export default function RightsBanner() {
                 <Text style={styles.descricao}>Informação, registro{'\n'}e apoio para um{'\n'}trabalho mais justo.</Text>
             </View>
 
-            <View style={styles.ilustracao}>
-                <Ionicons name="people" size={76} color="#542039" />
-            </View>
         </LinearGradient>
     );
 }

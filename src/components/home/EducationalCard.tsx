@@ -32,7 +32,10 @@ const styles = StyleSheet.create({
         minHeight: 61, 
         borderWidth: 1, 
         borderColor: '#F1DDD7', 
-        gap: 12 },
+        gap: 12,
+        marginBottom: 10, 
+
+    },
 
     thumbnail: { 
         width: 51, 
