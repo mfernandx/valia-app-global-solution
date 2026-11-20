@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { tokenStorage } from '../security/tokenStorage';
 
-const baseURL = 'http://192.168.15.64:10000';
+const baseURL = 'https://api-valia-global-solution.onrender.com';
 
 export const api = axios.create({
     baseURL,
